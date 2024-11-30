@@ -1,5 +1,6 @@
 namespace proyecto_maui;
 
+[QueryProperty(nameof(ItemId), nameof(ItemId))]
 public partial class NotePage : ContentPage
 {
     private readonly string _fileName = Path.Combine(FileSystem.AppDataDirectory, "notes.txt");
@@ -10,20 +11,46 @@ public partial class NotePage : ContentPage
 
         if (File.Exists(_fileName))
             TextEditor.Text = File.ReadAllText(_fileName);
+
+
     }
 
-    private void SaveButton_Clicked(object sender, EventArgs e)
+    public string ItemId
     {
-        // Save the file.
-        File.WriteAllText(_fileName, TextEditor.Text);
+        set { LoadNote(value); }
     }
 
-    private void DeleteButton_Clicked(object sender, EventArgs e)
+    private async void SaveButton_Clicked(object sender, EventArgs e)
     {
-        // Delete the file.
-        if (File.Exists(_fileName))
-            File.Delete(_fileName);
+        if (BindingContext is Models.Note note)
+            File.WriteAllText(note.Filename, TextEditor.Text);
 
-        TextEditor.Text = string.Empty;
+        await Shell.Current.GoToAsync("..");
+    }
+
+    private async void DeleteButton_Clicked(object sender, EventArgs e)
+    {
+        if (BindingContext is Models.Note note)
+        {
+            // Delete the file.
+            if (File.Exists(note.Filename))
+                File.Delete(note.Filename);
+        }
+
+        await Shell.Current.GoToAsync("..");
+    }
+
+    private void LoadNote(string fileName)
+    {
+        Models.Note noteModel = new Models.Note();
+        noteModel.Filename = fileName;
+
+        if (File.Exists(fileName))
+        {
+            noteModel.Date = File.GetCreationTime(fileName);
+            noteModel.Text = File.ReadAllText(fileName);
+        }
+
+        BindingContext = noteModel;
     }
 }
