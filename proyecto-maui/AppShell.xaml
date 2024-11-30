@@ -2,8 +2,9 @@
 <Shell
     x:Class="proyecto_maui.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:{XML namespace name}="clr-namespace:{.NET namespace}"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:proyecto_maui"
+    xmlns:views="clr-namespace:Notes.Views"
     Shell.FlyoutBehavior="Disabled"
     Title="proyecto_maui">
 
