@@ -1,4 +1,4 @@
-﻿namespace Notes.Models;
+﻿namespace proyecto_maui.Models;
 
 internal class About
 {

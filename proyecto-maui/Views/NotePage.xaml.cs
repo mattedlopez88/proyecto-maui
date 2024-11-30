@@ -7,10 +7,11 @@ public partial class NotePage : ContentPage
     public NotePage()
     {
         InitializeComponent();
-        
+
         if (File.Exists(_fileName))
             TextEditor.Text = File.ReadAllText(_fileName);
     }
+
     private void SaveButton_Clicked(object sender, EventArgs e)
     {
         // Save the file.
